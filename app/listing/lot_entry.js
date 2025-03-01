@@ -12,7 +12,8 @@ export default function LotEntry(props) {
       </div>
       <div className='flex p-4'>
         <div className='flex items-center'>
-          Нефтебаза {props.oil_base}
+          Нефтебаза {props.oil_base}<br/>
+          Регион: {props.oil_base_region}
         </div>
       </div>
       <div className='flex p-4'>

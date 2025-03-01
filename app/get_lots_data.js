@@ -21,6 +21,8 @@ export default async function getLotsData() {
   const [lot_list, fuel_types_raw, oil_bases_raw] =
     await Promise.all([lot_list_res.json(), fuel_types_res.json(), oil_bases_res.json()]);
 
+  console.log(lot_list);
+
   const fuel_types = convert_to_dict(fuel_types_raw);
   const oil_bases = convert_to_dict(oil_bases_raw);
   return {
