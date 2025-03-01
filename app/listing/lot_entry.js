@@ -3,7 +3,7 @@ import { Droplets } from 'lucide-react';
 
 export default function LotEntry(props) {
   return (
-    <Link href='' className='flex gap-16 bg-white rounded-xl w-full h-24 p-4'>
+    <Link href={'/buy/' + props.lot_id} className='flex gap-16 bg-white rounded-xl w-full h-24 p-4'>
       <div className='flex p-4 bg-slate-200 rounded-xl'>
         <div className='flex items-center'>
           <Droplets/>
