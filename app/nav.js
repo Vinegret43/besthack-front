@@ -7,10 +7,10 @@ import { clearCookies } from "@/app/logout.js";
 export default function Nav() {
   return (
     <div className='z-10 sticky top-0 bg-white w-full p-4 pl-10 pr-10'>
-      <div className='max-w-400 flex justify-between items-center m-auto gap-12'>
+      <div className='max-w-400 flex justify-start items-center m-auto gap-12'>
         <img src='/logo.png' className='h-8'/>
         <Link href='/' className='text-xl'>Главная</Link>
-        <Input className='rounded-full' placeholder="Поиск"></Input>
+        <div className='grow'></div>
         <Link href='' onClick={clearCookies} className='text-xl text-nowrap'><DoorOpen className="inline"/>Выход</Link>
       </div>
     </div>

@@ -7,8 +7,9 @@ import { API_ADDR } from '@/app/config';
 export async function processForm(values) {
   const cookieStore = await cookies();
 
+  let raw_response;
   try {
-    const raw_response = await fetch(API_ADDR + '/users/token/', {
+    raw_response = await fetch(API_ADDR + '/users/token/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

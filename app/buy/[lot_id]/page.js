@@ -4,8 +4,7 @@ import { cookies } from 'next/headers';
 import Nav from '@/app/nav';
 import BuyForm from './form';
 import LotEntry from '@/app/listing/lot_entry';
-
-import { Droplets } from 'lucide-react';
+import { redirect } from 'next/navigation';
 
 export default async function BuyPage({params}) {
   const params_ready = (await params);
@@ -25,12 +24,13 @@ export default async function BuyPage({params}) {
       lot: currentLot.id,
       volume: formData.get('volume'),
       delivery_type: formData.get('delivery_type'),
-      price: '100.0',
-      delivery_address: 'smhlol'
+      delivery_address: 'TODO'
     }
 
     const cookieStore = await cookies();
     let token = cookieStore.get('access').value;
+
+    console.log(rawFormData);
 
     const request = fetch(API_ADDR + '/trade/orders/', {
       method: "POST",
@@ -44,37 +44,24 @@ export default async function BuyPage({params}) {
 
     const response = await request;
     console.log(await response.text());
+    console.log(response.status);
+    if (Math.floor(response.status / 100) == 2) {
+      redirect('/success');
+    } else {
+      redirect('/failure');
+    }
   };
 
   return (
     <div>
       <Nav></Nav>
-      <div className='max-w-160 m-auto p-8'>
-        <h1 className="text-2xl m-4">Оформление заказа</h1>
-
-        <div className='flex gap-16 bg-white rounded-xl w-full h-24 p-4 mt-8 mb-8'>
-          <div className='flex p-4 bg-slate-200 rounded-xl'>
-            <div className='flex items-center'>
-              <Droplets/>
-              {fuel_types[currentLot.fuel_type].name}
-            </div>
-          </div>
-          <div className='flex p-4'>
-            <div className='flex items-center'>
-              {oil_bases[currentLot.oil_base].name}
-            </div>
-          </div>
-          <div className='flex p-4'>
-            <div className='flex items-center'>
-              Цена за тонну: {currentLot.price_per_ton} ₽
-            </div>
-          </div>
-        </div>
-
-        <div className='bg-white rounded-xl p-8'>
-          <BuyForm onSubmit={onSubmit} max_fuel_amount={currentLot.available_volume}/>
-        </div>
-      </div>
+      <BuyForm
+        onSubmit={onSubmit}
+        currentLot={currentLot}
+        lot_list={lot_list}
+        fuel_types={fuel_types}
+        oil_bases={oil_bases}
+      />
     </div>
   );
 }

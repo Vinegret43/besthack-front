@@ -42,13 +42,13 @@ export default async function getLotsData() {
     await redirect(`/down?err=${encodeURIComponent("Неполадки с сервисом, попробуйте подключиться позже")}`);
   }
 
-  const statuses = [lot_list_res.status, fuel_type_res.status, oil_bases_res.status];
+  const statuses = [lot_list_res.status, fuel_types_res.status, oil_bases_res.status];
   if (Math.floor(statuses[0]/100) != 2) {
     const err = await lot_list_res.json();
     await redirect(`/down?err=${encodeURIComponent(err.detail)}`);
   }
   if (Math.floor(statuses[1]/100) != 2) {
-    const err = await fuel_type_res.json();
+    const err = await fuel_types_res.json();
     await redirect(`/down?err=${encodeURIComponent(err.detail)}`);
   }
   if (Math.floor(statuses[2]/100) != 2) {
