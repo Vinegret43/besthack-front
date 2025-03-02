@@ -24,7 +24,8 @@ export default function LotEntry(props) {
       </div>
       <div className='flex p-4'>
         <div className='flex items-center'>
-          Цена за тонну: TODO ₽
+          {props.total_price}₽<br/>
+          Цена за 1 тонну: {props.price_per_ton}₽
         </div>
       </div>
     </Link>

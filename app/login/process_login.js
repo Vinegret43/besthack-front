@@ -22,8 +22,7 @@ export async function processForm(values) {
     cookieStore.set('refresh', content.refresh);
     await redirect('/');
   } else {
-    // const content = await raw_response.json();
-    // return content.message;
+    const content = await raw_response.json();
+    return content.message;
   }
-  return "Неверный логин или пароль";
 }

@@ -1,6 +1,7 @@
 'use server'
 
 import { API_ADDR } from '@/app/config';
+import { cookies } from 'next/headers';
 
 function convert_to_dict(list) {
   let dict = {};
@@ -12,16 +13,30 @@ function convert_to_dict(list) {
 }
 
 export default async function getLotsData() {
-  const lot_list_req = fetch(API_ADDR + '/trade/lots');
-  const fuel_types_req = fetch(API_ADDR + '/trade/fuel-types');
-  const oil_bases_req = fetch(API_ADDR + '/trade/oil-bases');
+  const cookieStore = await cookies();
+  let token = cookieStore.get('access').value;
+
+  const lot_list_req = fetch(API_ADDR + '/trade/lots/', {
+    method: "GET",
+    headers: {
+      "Authorization": "Bearer " + token,
+    }
+  });
+  const fuel_types_req = fetch(API_ADDR + '/trade/fuel-types/', {
+    headers: {
+      "Authorization": "Bearer " + token,
+    }
+  });
+  const oil_bases_req = fetch(API_ADDR + '/trade/oil-bases/', {
+    headers: {
+      "Authorization": "Bearer " + token,
+    }
+  });
 
   const [lot_list_res, fuel_types_res, oil_bases_res] =
     await Promise.all([lot_list_req, fuel_types_req, oil_bases_req]);
   const [lot_list, fuel_types_raw, oil_bases_raw] =
     await Promise.all([lot_list_res.json(), fuel_types_res.json(), oil_bases_res.json()]);
-
-  console.log(lot_list);
 
   const fuel_types = convert_to_dict(fuel_types_raw);
   const oil_bases = convert_to_dict(oil_bases_raw);
