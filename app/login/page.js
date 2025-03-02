@@ -8,7 +8,6 @@ import { z } from "zod"
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Form,
   FormControl,
@@ -20,15 +19,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
-import { AlertCircle } from "lucide-react"
+import { AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 // TODO: максимальный лимит длины
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: "TODO",
+    message: "Мин. длина: 2 символа",
+  }).max(100, {
+    message: "Макс.длина: 100 символов",
   }),
   password: z.string().min(2, {
-    message: "TODO",
+    message: "Мин.длина: 2 символа",
+  }).max(100, {
+    message: "Макс.длина: 100 символов",
   }),
 })
  
@@ -45,52 +49,55 @@ export default function ProfileForm() {
  
   async function onSubmit(values) {
     const errMsg = await processForm(values);
-    if (errMsg) {
-      setErrorMsg(errMsg);
-    }
+    toast(errMsg, {
+      icon: <AlertCircle/>
+    })
   }
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Логин</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Пароль</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormDescription>
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Alert variant="destructive" hidden={!errorMsg}>
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Неверный логин или пароль</AlertTitle>
-          <AlertDescription>
-            Проверьте их правильность
-          </AlertDescription>
-        </Alert>
-        <Button type="submit">Войти</Button>
-      </form>
-    </Form>
+    <div>
+      <img className="absolute top-4 left-4 w-64" src="/logo.png"/>
+      <div className="bg-[url(/bg.png)] bg-cover w-screen h-screen p-16">
+        <div className="max-w-100 m-auto p-4 rounded-xl bg-white text-xl">
+          Вход
+        </div>
+        <div className="max-w-100 m-auto p-4 rounded-xl bg-white mt-8">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Логин</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Пароль</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Войти</Button>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </div>
   )
 }

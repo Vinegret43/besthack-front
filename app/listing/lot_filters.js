@@ -72,6 +72,7 @@ export default function LotFilters(props) {
         className="m-1"
         variant="outline"
         key={i}
+        disabled={props.oilBaseFilter.length != 0 && !props.oilBaseFilter.includes(oil_bases[i].region)}
         onPressedChange={
           (pressed) => {
             let filter = props.oilBaseName.slice();

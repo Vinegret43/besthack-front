@@ -10,7 +10,6 @@ export default function LotList(props) {
     if (e.status != 'confirmed') {
       continue;
     }
-    console.log(props.fuelTypeFilter);
     if (!(props.fuelTypeFilter.includes(e.fuel_type) || props.fuelTypeFilter.length == 0)) {
       continue;
     }

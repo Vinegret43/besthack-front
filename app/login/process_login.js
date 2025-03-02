@@ -7,15 +7,19 @@ import { API_ADDR } from '@/app/config';
 export async function processForm(values) {
   const cookieStore = await cookies();
 
-  const raw_response = await fetch(API_ADDR + '/users/token/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    }
-  );
+  try {
+    const raw_response = await fetch(API_ADDR + '/users/token/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      }
+    );
+  } catch {
+    return "Не удалось подключиться к сервису";
+  };
   if (raw_response.status == 200) {
     const content = await raw_response.json();
     cookieStore.set('access', content.access);
@@ -23,6 +27,6 @@ export async function processForm(values) {
     await redirect('/');
   } else {
     const content = await raw_response.json();
-    return content.message;
+    return content.detail;
   }
 }

@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { DoorOpen } from 'lucide-react';
 
 import { Input } from "@/components/ui/input"
+import { clearCookies } from "@/app/logout.js";
 
 export default function Nav() {
   return (
@@ -10,7 +11,7 @@ export default function Nav() {
         <img src='/logo.png' className='h-8'/>
         <Link href='/' className='text-xl'>Главная</Link>
         <Input className='rounded-full' placeholder="Поиск"></Input>
-        <Link href='' className='text-xl text-nowrap'>Личный кабинет</Link>
+        <Link href='' onClick={clearCookies} className='text-xl text-nowrap'><DoorOpen className="inline"/>Выход</Link>
       </div>
     </div>
   )
